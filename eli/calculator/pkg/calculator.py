@@ -1,5 +1,3 @@
-# calculator/pkg/calculator.py
-
 from collections.abc import Callable
 
 
