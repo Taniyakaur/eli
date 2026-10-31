@@ -1,5 +1,6 @@
 import os
 from config import MAX_CHARS  # Import the character limit from config.py
+from functions._paths import resolve_within
 
 
 def get_file_content(working_directory: str, file_path: str) -> str:
@@ -14,14 +15,9 @@ def get_file_content(working_directory: str, file_path: str) -> str:
         str: The content of the file or an error message.
     """
     try:
-        # Ensure the working directory is an absolute path
-        working_dir_abs = os.path.abspath(working_directory)
-
-        # Construct the full path to the file
-        target_file = os.path.normpath(os.path.join(working_dir_abs, file_path))
-
-        # Check if the file is within the working directory
-        if os.path.commonpath([working_dir_abs, target_file]) != working_dir_abs:
+        # Resolve the path and check it is within the working directory
+        target_file = resolve_within(working_directory, file_path)
+        if target_file is None:
             return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
 
         # Check if the file exists and is a regular file
@@ -41,3 +37,22 @@ def get_file_content(working_directory: str, file_path: str) -> str:
     except Exception as e:
         # Catch any unexpected errors and return an error message
         return f'Error: {str(e)}'
+
+
+schema_get_file_content = {
+    "type": "function",
+    "function": {
+        "name": "get_file_content",
+        "description": "Reads and returns the text contents of a file relative to the working directory, truncating very long files",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string",
+                    "description": "Path of the file to read, relative to the working directory",
+                },
+            },
+            "required": ["file_path"],
+        },
+    },
+}
