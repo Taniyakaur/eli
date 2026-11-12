@@ -4,6 +4,11 @@
 
 You don't have to tell it which file to open or which line to change. It works that out on its own.
 
+**Your code can stay private.** You can choose where the AI "brain" runs:
+
+- **Online (default):** eli uses a free AI model through [OpenRouter](https://openrouter.ai). It's quick to set up, but the files eli reads are sent over the internet to that service.
+- **On your own computer:** run eli with `--local` and it uses an AI model installed on your machine. **Nothing leaves your computer**, and you don't need an account or key. [See how to set it up.](#optional-keep-everything-on-your-computer-local-model)
+
 ---
 
 ## What does it actually do?
